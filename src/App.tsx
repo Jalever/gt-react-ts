@@ -1,22 +1,23 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import Cookies from 'js-cookie';
 import { rootReducer, RootState } from "@/store/index";
 import * as ChatActions from "@/store/chat/actions";
 import * as ChatTypes from "@/store/chat/types";
 import * as SystemActions from "@/store/system/actions";
 import Counter from "@components/Counter";
 import Counter6 from "@components/Counter6";
-import ChildComp from "@components/ChildComp";
+import ContentCloud from "@/pages/content-cloud";
 import REQUEST from "@/request/index";
+import * as CONSTANTS from "@/constants/index";
+
 import "./App.less";
 const { useState, useEffect, useReducer, useRef } = React;
-
 interface IProps {
   name: string
   age: number
 }
-
 interface iParentRef {
   focusRef: any
   inputRef: any
@@ -25,53 +26,58 @@ interface iParentRef {
   onchange: (e: string) => void
 }
 
-const App = (props: any) => {
-  const { name, age } = props;
-  const [newMsg, setNewMsg] = useState('');
-  const parentRef = useRef<HTMLInputElement>(null);
-  const getFocus = () => {
-    if (!parentRef.current) return;
+//get token
+const fetchToken = async () => {
+  const params = {
+    appKey: CONSTANTS.VAR_APPKEY,
+    appSecret: CONSTANTS.VAR_APPVALUE
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      // const params = {
-      //   appKey: 'd13aee18d153440787b28fefd5ed07e7',
-      //   appSecret: 'g/J7EbjkwZuYYZvotc1jzcbHxPMmtAFofBRjPtAUa7Z5uqg5H+f80A=='
-      // };
-      // const p2 = {
-      //   channelId: 91,
-      //   pageId: 90
-      // };
-      // const getToken = await REQUEST.getData(params);
-      // console.warn('getToken');
-      // console.log(getToken);
+  const token = await REQUEST.getToken(params);
+  const tokenkey = CONSTANTS.VAR_TOKENKEY;
+  Cookies.set(tokenkey, token);
+  return token;
+}
 
-      // const getPageData = await REQUEST.getPage(p2);
-      // console.warn('getPageData');
-      // console.log(getPageData);
+
+//get content-cloud data
+// const fetchContentData = async () => {
+//   const params = {
+//     channelId: CONSTANTS.VAR_CHANNELID,
+//     pageId: CONSTANTS.VAR_PAGEID
+//   };
+//   const data = await REQUEST.getMainContentData(params);
+//   return data;
+// }
+
+const App = (props: any) => {
+  const [newMsg, setNewMsg] = useState('');
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    const onAsync = async () => {
+      fetchToken();
+
+      // const list = await fetchContentData();
+      // const { activityVoList } = list;
+      // setList(activityVoList);
+      // console.warn('list');
+      // console.log(list);
+      // console.log('\n');
+
     }
-    fetchData();
+    onAsync();
   }, []);
 
-  const onSendMessage = () => {
-    console.warn('newMsg');
-    console.log(newMsg);
-    console.log('\n');
-    props.sendMessage(newMsg);
-  }
+  // const onSendMessage = () => {
+  //   console.warn('newMsg');
+  //   console.log(newMsg);
+  //   console.log('\n');
+  //   props.sendMessage(newMsg);
+  // }
 
   return (
     <React.Fragment>
-      <div className='app'>
-        <Counter />
-        <input value={newMsg} onChange={e => setNewMsg(e.target.value)} />
-        {/* <Counter6 />
-        <ChildComp ref={parentRef} />
-        <div className="rect"></div>
-        <span>{`Hello! I'm ${name}, ${age} years old.`}</span>
-        <p className="title">精品推荐</p> */}
-        <button onClick={onSendMessage}>send message</button>
-      </div>
+      <ContentCloud />
     </React.Fragment>
   )
 }

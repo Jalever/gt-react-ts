@@ -87,6 +87,8 @@ module.exports = {
       "@": path.resolve(__dirname, "../src"),
       "@request": path.resolve(__dirname, "../src/request"),
       "@components": path.resolve(__dirname, "../src/components"),
+      "@constants": path.resolve(__dirname, "../src/constants"),
+      "@store": path.resolve(__dirname, "../src/store"),
     }
   },
 }

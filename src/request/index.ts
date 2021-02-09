@@ -18,6 +18,6 @@ const API_PREFIX = "http://api.gtzdb.com/api/v4";
 // isNeedToken = true,
 const getApi = (url?: string) => API_PREFIX + url;
 export default {
-  getData: (params?: any) => request(getApi('/login/get-token'), params, METHOD.GET, false, false, false, false),
-  getPage: (params?: any) => request(getApi('/page-manage/get-page'), params, METHOD.POST, true)
+  getToken: (params?: any) => request(getApi('/login/get-token'), params, METHOD.GET, false, false, false, false),
+  getMainContentData: (params?: any) => request(getApi('/page-manage/get-page-v2'), params, METHOD.POST, true)
 };

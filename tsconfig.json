@@ -32,6 +32,12 @@
       "@components/*": [
         "src/components/*"
       ],
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
     },
     // 实验性选项
     "experimentalDecorators": true, // 启用实验性的ES装饰器
