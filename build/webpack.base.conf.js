@@ -46,21 +46,52 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: false,
+              modules: true,
               sourceMap: true,
               importLoaders: 1, // 需要先被 less-loader 处理，所以这里设置为 1
             },
           },
-          
           'postcss-loader',
           {
             loader: 'less-loader',
             options: {
-              sourceMap: true,
+              sourceMap: true
             },
           },
         ],
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              // 当文件大于5kb时走file-loader相关的配置
+              limit: 5120,
+              // 这个参数要设置成false,不然生成图片的路径时[object Module]
+              esModule: false,
+              // 当文件大于5kb时走file-loader相关的配置
+              fallback: 'file-loader',
+              // 生成的路径和文件名
+              name: 'images/[name].[hash:4].[ext]',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 5120,
+              esModule: false,
+              fallback: 'file-loader',
+              name: 'fonts/[name].[hash:4].[ext]',
+            },
+          },
+        ],
+      }
     ],
   },
   plugins: [

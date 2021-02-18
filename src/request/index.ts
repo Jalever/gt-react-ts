@@ -19,5 +19,6 @@ const API_PREFIX = "http://api.gtzdb.com/api/v4";
 const getApi = (url?: string) => API_PREFIX + url;
 export default {
   getToken: (params?: any) => request(getApi('/login/get-token'), params, METHOD.GET, false, false, false, false),
-  getMainContentData: (params?: any) => request(getApi('/page-manage/get-page-v2'), params, METHOD.POST, true)
+  getMainContentData: (params?: any) => request(getApi('/page-manage/get-page-v2'), params, METHOD.POST, true),
+  getBanner: (params?: any) => request(getApi('/label-set/query-one-category'), params, METHOD.POST, true)
 };

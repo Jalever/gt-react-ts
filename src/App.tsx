@@ -18,6 +18,7 @@ interface IProps {
   name: string
   age: number
 }
+
 interface iParentRef {
   focusRef: any
   inputRef: any
@@ -38,17 +39,6 @@ const fetchToken = async () => {
   return token;
 }
 
-
-//get content-cloud data
-// const fetchContentData = async () => {
-//   const params = {
-//     channelId: CONSTANTS.VAR_CHANNELID,
-//     pageId: CONSTANTS.VAR_PAGEID
-//   };
-//   const data = await REQUEST.getMainContentData(params);
-//   return data;
-// }
-
 const App = (props: any) => {
   const [newMsg, setNewMsg] = useState('');
   const [list, setList] = useState([]);
@@ -56,24 +46,9 @@ const App = (props: any) => {
   useEffect(() => {
     const onAsync = async () => {
       fetchToken();
-
-      // const list = await fetchContentData();
-      // const { activityVoList } = list;
-      // setList(activityVoList);
-      // console.warn('list');
-      // console.log(list);
-      // console.log('\n');
-
     }
     onAsync();
   }, []);
-
-  // const onSendMessage = () => {
-  //   console.warn('newMsg');
-  //   console.log(newMsg);
-  //   console.log('\n');
-  //   props.sendMessage(newMsg);
-  // }
 
   return (
     <React.Fragment>
